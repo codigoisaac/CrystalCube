@@ -1,8 +1,8 @@
 {
-  "name": "backend",
+  "name": "enter-the-nest",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Isaac Muniz :: isaacmuniz.vercel.app",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
