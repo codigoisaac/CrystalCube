@@ -29,6 +29,5 @@ export class AuthController {
   @Get('check')
   check(@Request() request: { user: User }): User {
     return request.user;
-    //! melhorar tipagem
   }
 }

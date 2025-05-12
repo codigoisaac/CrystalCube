@@ -126,7 +126,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\isaac\\._personal_stuff\\codex\\_projects\\auth-api\\generated\\prisma",
+      "value": "/home/isaac/Desktop/projects/EnterTheNest/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -135,17 +135,16 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-3.0.x",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\isaac\\._personal_stuff\\codex\\_projects\\auth-api\\prisma\\schema.prisma",
+    "sourceFilePath": "/home/isaac/Desktop/projects/EnterTheNest/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../prisma",
   "clientVersion": "6.7.0",
@@ -154,7 +153,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {

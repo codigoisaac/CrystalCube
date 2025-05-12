@@ -1,98 +1,170 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Enter the Nest
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A NestJS-based authentication API with JWT implementation. This project provides a robust starting point for building secure web applications with user authentication functionality.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Authentication System Overview
 
-## Description
+This API implements a secure JWT-based authentication system with these key features:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Registration**: Users create accounts with email, name, and password
+- **Login**: Users authenticate to receive a JWT token
+- **Protected Resources**: Access secured endpoints using JWT tokens
+- **Password Security**: Bcrypt hashing with strong password requirements
 
-## Project setup
+### Authentication Flow
 
 ```bash
-$ npm install
+# 1. Register a new user
+POST /auth/signup
+Body: { "name": "John Doe", "email": "john@example.com", "password": "StrongP@ss1", "passwordConfirm": "StrongP@ss1" }
+
+# 2. Login to get a token
+POST /auth/login
+Body: { "email": "john@example.com", "password": "StrongP@ss1" }
+Response: { "accessToken": "eyJhbGciOiJIUzI1NiIsIn..." }
+
+# 3. Access protected resources
+GET /auth/check
+Header: Authorization: Bearer eyJhbGciOiJIUzI1NiIsIn...
 ```
 
-## Compile and run the project
+### Technical Implementation
+
+- **Password Security**: Passwords are hashed with bcrypt (cost factor 10)
+- **JWT Implementation**: Tokens contain user data (id, name, email) with a 1-hour expiration
+- **Token Verification**: AuthGuard middleware verifies tokens and provides user data to controllers
+- **Stateless Design**: No server-side token storage for better scalability
+
+> **Note on Token Expiration**: The default token expiration is set to 1 hour (`expiresIn: '1h'`) in `auth.module.ts`. For production environments, this should be paired with a refresh token mechanism for better security. You can modify this value based on your security requirements.
+
+## Features
+
+- **User Authentication**: Complete signup and login system
+- **JWT-based Authorization**: Secure API endpoints with JSON Web Tokens
+- **Data Validation**: Strong request validation with custom decorators
+- **Password Security**: Bcrypt hashing for secure password storage
+- **PostgreSQL Integration**: Database persistence with Prisma ORM
+
+## Tech Stack
+
+- **Backend Framework**: NestJS 11
+- **Language**: TypeScript
+- **Database**: PostgreSQL
+- **ORM**: Prisma
+- **Authentication**: JWT (JSON Web Tokens)
+- **Validation**: class-validator
+- **Password Hashing**: bcrypt
+
+## Prerequisites
+
+- Node.js (v18 or higher)
+- PostgreSQL
+- npm or yarn
+
+## Getting Started
+
+### Environment Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/codigoisaac/EnterTheNest.git
+   cd EnterTheNest
+   ```
+
+2. Install dependencies and set up environment:
+   ```bash
+   npm install
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+### Database Setup
+
+1. **PostgreSQL**: Ensure your PostgreSQL server is running. This application requires PostgreSQL to function.
+
+2. Configure your database connection in the `.env` file:
+   ```
+   DATABASE_URL="postgresql://username:password@localhost:5432/enter-the-nest?schema=public"
+   ```
+
+3. Apply migrations and generate the Prisma client:
+   ```bash
+   npx prisma migrate dev
+   npx prisma generate
+   ```
+
+### Running the Application
 
 ```bash
-# development
-$ npm run start
+# Development
+npm run start:dev
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# Production
+npm run build
+npm run start:prod
 ```
 
-## Run tests
+The API will be available at `http://localhost:3000` (or the port specified in your env variables).
 
-```bash
-# unit tests
-$ npm run test
+## API Endpoints
 
-# e2e tests
-$ npm run test:e2e
+### Authentication
 
-# test coverage
-$ npm run test:cov
+- **POST /auth/signup** - Register a new user
+- **POST /auth/login** - Authenticate and receive token
+- **GET /auth/check** - Verify authentication (protected route)
+
+### Creating Protected Routes
+
+You can easily create additional protected routes in your application by using the `AuthGuard`. Simply apply the `@UseGuards(AuthGuard)` decorator to any controller method that should require authentication:
+
+```typescript
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../auth/auth.guard';
+
+@Controller('items')
+export class ItemsController {
+  
+  // Public route - no authentication required
+  @Get('public')
+  getPublicItems() {
+    return { message: 'This is public data' };
+  }
+  
+  // Protected route - requires a valid JWT token
+  @UseGuards(AuthGuard)
+  @Get('protected')
+  getProtectedItems() {
+    return { message: 'This is protected data' };
+  }
+}
 ```
 
-## Deployment
+When the `AuthGuard` is applied:
+- Requests must include a valid JWT token in the Authorization header
+- If the token is missing or invalid, the request will be rejected with a 401 Unauthorized error
+- If the token is valid, the user's information becomes available via `request.user` in your controller
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+You can protect individual routes or apply the guard to an entire controller by placing the decorator at the controller level.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Password Requirements
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+- Minimum 8 characters
+- At least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 symbol
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Development Notes
 
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- JWT tokens expire after 1 hour by default (set in `auth.module.ts`)
+- For production, consider implementing a refresh token mechanism for better security
+- The API uses global validation pipes to automatically validate incoming requests
+- Custom validation decorator (`Match`) is implemented for password confirmation
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+The MIT License is a permissive license that allows anyone to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to the condition that the original copyright notice and permission notice be included in all copies or substantial portions of the software.
+
+## Author
+
+Isaac Muniz - [isaacmuniz.vercel.app](https://isaacmuniz.vercel.app)

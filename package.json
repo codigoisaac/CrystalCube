@@ -4,7 +4,7 @@
   "description": "",
   "author": "Isaac Muniz :: isaacmuniz.vercel.app",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
