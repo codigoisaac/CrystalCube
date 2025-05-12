@@ -1,0 +1,26 @@
+meta {
+  name: LogIn
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3333/auth/login
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "test@example.com",
+    "password": "TestP@ss123"
+  }
+}
+
+script:post-response {
+  // Save token as a collection variable
+  if (res.body && res.body.accessToken) {
+    bru.setVar("token", res.body.accessToken);
+    console.log("Token saved to collection variables");
+  }
+}

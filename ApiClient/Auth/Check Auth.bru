@@ -1,0 +1,15 @@
+meta {
+  name: Check Auth
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:3333/auth/check
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlRlc3QgVXNlciIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImlhdCI6MTc0NzA0NjI4NywiZXhwIjoxNzQ3MDQ5ODg3fQ.gjiJCp43MbxXH76eLg6b_se9zPSxE0AqSPkFKXWc08E
+}

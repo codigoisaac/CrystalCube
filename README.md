@@ -17,6 +17,7 @@ This API implements a secure JWT-based authentication system with these key feat
 # 1. Register a new user
 POST /auth/signup
 Body: { "name": "John Doe", "email": "john@example.com", "password": "StrongP@ss1", "passwordConfirm": "StrongP@ss1" }
+Response: { "id": 1, "email": "john@example.com", "name": "John Doe" }
 
 # 2. Login to get a token
 POST /auth/login
@@ -26,6 +27,7 @@ Response: { "accessToken": "eyJhbGciOiJIUzI1NiIsIn..." }
 # 3. Access protected resources
 GET /auth/check
 Header: Authorization: Bearer eyJhbGciOiJIUzI1NiIsIn...
+Response: { "id": 1, "name": "John Doe", "email": "john@example.com", "iat": 1747046287, "exp": 1747049887 }
 ```
 
 ### Technical Implementation
@@ -104,7 +106,7 @@ npm run build
 npm run start:prod
 ```
 
-The API will be available at `http://localhost:3000` (or the port specified in your env variables).
+The API will be available at `http://localhost:3333` (or the port specified in your env variables).
 
 ## API Endpoints
 
