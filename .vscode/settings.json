@@ -1,5 +1,4 @@
 {
-    "material-icon-theme.activeIconPack": "nest",
     "vsicons.presets.angular": false,
     "vsicons.presets.nestjs": true
 }

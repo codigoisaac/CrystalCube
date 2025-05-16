@@ -1,0 +1,46 @@
+# Dependencies
+node_modules
+
+# Compiled output
+/dist
+/build
+
+# Git related
+.git
+.gitignore
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# IDE files
+.vscode
+.idea
+.DS_Store
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Environment files (except example for reference)
+.env
+.env.*
+!.env.example
+
+# Temporary files
+.temp
+.tmp
+
+# Misc
+README.md
+LICENSE
+.eslintrc.js
+
+# Generated Prisma files (will be regenerated in container)
+/generated
