@@ -1,10 +1,17 @@
 FROM node:20-alpine
 
+# Create non-root user for security
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 prisma
+
 WORKDIR /app
 
 COPY prisma ./prisma
  
-RUN npm install --no-save prisma
+RUN npm install --no-save prisma && \
+    chown -R prisma:nodejs /app
+
+USER prisma
 
 EXPOSE 5555
 

@@ -1,4 +1,6 @@
 #!/bin/sh
+
+# exit immediately if any command fails
 set -e
 
 echo "🔄 Running database migrations..."

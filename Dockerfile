@@ -1,4 +1,4 @@
-# Build Stage
+### Build Stage
 
 FROM node:20-alpine AS builder
 
@@ -18,7 +18,7 @@ RUN npx prisma generate
 RUN npm run build
 RUN npm prune --production
 
-# Production Stage
+### Production Stage
 
 FROM node:20-alpine AS production
 
@@ -41,10 +41,14 @@ COPY --from=builder /app/package.json ./package.json
 
 # Copy startup script
 COPY docker-entrypoint.sh /docker-entrypoint.sh
+
+# Add execute permission to the startup script
 RUN chmod +x /docker-entrypoint.sh
 
+# Transfer ownership of all the files to the non-root user and group we created above
 RUN chown -R nestjs:nodejs /app
 
+# Switch to running as the non-root user
 USER nestjs
 
 EXPOSE 3333
