@@ -1,0 +1,11 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY prisma ./prisma
+ 
+RUN npm install --no-save prisma
+
+EXPOSE 5555
+
+CMD ["npx", "prisma", "studio", "--hostname", "0.0.0.0"]
