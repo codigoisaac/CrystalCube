@@ -9,9 +9,9 @@ services:
     depends_on:
       - postgres
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/enterthenest?schema=public
-      - JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
-      - PORT=3333
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=${PORT}
     volumes:
       - ./src:/app/src
     restart: unless-stopped
@@ -26,7 +26,7 @@ services:
     depends_on:
       - postgres
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/enterthenest?schema=public
+      - DATABASE_URL=${DATABASE_URL}
     restart: unless-stopped
 
   postgres:
@@ -35,9 +35,9 @@ services:
     ports:
       - '7777:5432'
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=enterthenest
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DATABASE}
     volumes: 
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
