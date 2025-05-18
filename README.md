@@ -46,6 +46,7 @@ Response: { "id": 1, "name": "John Doe", "email": "john@example.com", "iat": 174
 - **Data Validation**: Strong request validation with custom decorators
 - **Password Security**: Bcrypt hashing for secure password storage
 - **PostgreSQL Integration**: Database persistence with Prisma ORM
+- **Docker Support**: Containerized setup for easy deployment and development
 
 ## Tech Stack
 
@@ -56,18 +57,62 @@ Response: { "id": 1, "name": "John Doe", "email": "john@example.com", "iat": 174
 - **Authentication**: JWT (JSON Web Tokens)
 - **Validation**: class-validator
 - **Password Hashing**: bcrypt
+- **Containerization**: Docker & Docker Compose
 
-## Prerequisites
+## Getting Started
+
+You can run this application either directly on your machine or using Docker.
+
+### Option 1: Using Docker (Recommended)
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/codigoisaac/EnterTheNest.git
+   cd EnterTheNest
+   ```
+
+2. Create environment file:
+
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration if needed
+   ```
+
+3. Start the application using Docker Compose:
+
+   ```bash
+   docker-compose up -d
+   ```
+
+   This command starts three containers:
+
+   - `enterthenest_api`: The NestJS API running on port 3333
+   - `enterthenest_postgres`: PostgreSQL database running on port 7777
+   - `enterthenest_prismastudio`: Prisma Studio for database management running on port 5555
+
+4. Access the application:
+
+   - API: http://localhost:3333
+   - Prisma Studio: http://localhost:5555
+
+5. To stop the application:
+   ```bash
+   docker-compose down
+   ```
+
+### Option 2: Local Development
+
+#### Prerequisites
 
 - Node.js (v18 or higher)
 - PostgreSQL
 - npm or yarn
 
-## Getting Started
-
-### Environment Setup
+#### Environment Setup
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/codigoisaac/EnterTheNest.git
    cd EnterTheNest
@@ -80,11 +125,12 @@ Response: { "id": 1, "name": "John Doe", "email": "john@example.com", "iat": 174
    # Edit .env with your configuration
    ```
 
-### Database Setup
+#### Database Setup
 
 1. **PostgreSQL**: Ensure your PostgreSQL server is running. This application requires PostgreSQL to function.
 
 2. Configure your database connection in the `.env` file:
+
    ```
    DATABASE_URL="postgresql://username:password@localhost:5432/enter-the-nest?schema=public"
    ```
@@ -95,7 +141,7 @@ Response: { "id": 1, "name": "John Doe", "email": "john@example.com", "iat": 174
    npx prisma generate
    ```
 
-### Running the Application
+#### Running the Application
 
 ```bash
 # Development
@@ -107,6 +153,58 @@ npm run start:prod
 ```
 
 The API will be available at `http://localhost:3333` (or the port specified in your env variables).
+
+## Docker Details
+
+This project includes a complete Docker setup for both development and production environments:
+
+### Docker Components
+
+- **Main API Container**: NestJS application with automatic database migrations on startup
+- **PostgreSQL Container**: Database persistence with volume mapping
+- **Prisma Studio Container**: Web-based database management interface
+
+### Docker Services
+
+- **api**: The main NestJS application
+
+  - Builds from `Dockerfile`
+  - Runs on port 3333 (configurable in .env)
+  - Automatically runs database migrations on startup
+  - Uses non-root user for enhanced security
+
+- **postgres**: PostgreSQL database
+
+  - Uses official PostgreSQL 16 Alpine image
+  - Runs on port 7777 (maps to internal 5432)
+  - Persists data using Docker volumes
+
+- **prisma-studio**: Web interface for database management
+  - Builds from `Dockerfile.prisma-studio`
+  - Runs on port 5555
+  - Provides a convenient UI for managing database records
+
+### Docker Commands
+
+```bash
+# Start all services
+docker-compose up -d
+
+# View logs from all containers
+docker-compose logs -f
+
+# View logs from a specific container
+docker-compose logs -f api
+
+# Stop all services
+docker-compose down
+
+# Rebuild containers (after making changes)
+docker-compose up -d --build
+
+# Remove volumes (caution: this deletes all database data)
+docker-compose down -v
+```
 
 ## API Endpoints
 
@@ -126,13 +224,12 @@ import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('items')
 export class ItemsController {
-  
   // Public route - no authentication required
   @Get('public')
   getPublicItems() {
     return { message: 'This is public data' };
   }
-  
+
   // Protected route - requires a valid JWT token
   @UseGuards(AuthGuard)
   @Get('protected')
@@ -143,6 +240,7 @@ export class ItemsController {
 ```
 
 When the `AuthGuard` is applied:
+
 - Requests must include a valid JWT token in the Authorization header
 - If the token is missing or invalid, the request will be rejected with a 401 Unauthorized error
 - If the token is valid, the user's information becomes available via `request.user` in your controller
@@ -160,6 +258,7 @@ You can protect individual routes or apply the guard to an entire controller by 
 - For production, consider implementing a refresh token mechanism for better security
 - The API uses global validation pipes to automatically validate incoming requests
 - Custom validation decorator (`Match`) is implemented for password confirmation
+- Docker setup includes separate containers for the API, database, and database management
 
 ## License
 
