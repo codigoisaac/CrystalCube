@@ -65,6 +65,13 @@ You can run this application either directly on your machine or using Docker.
 
 ### Option 1: Using Docker (Recommended)
 
+#### Prerequisites
+
+- Docker installed on your machine
+- Docker Compose installed on your machine
+
+#### Setup and Run
+
 1. Clone the repository:
 
    ```bash
@@ -153,6 +160,16 @@ npm run start:prod
 ```
 
 The API will be available at `http://localhost:3333` (or the port specified in your env variables).
+
+#### Running Prisma Studio Locally
+
+Prisma Studio is a visual editor for your database. To run it locally (without Docker):
+
+```bash
+npx prisma studio
+```
+
+This will start Prisma Studio at http://localhost:5555. You can use it to view and edit the data in your database with a user-friendly interface.
 
 ## Docker Details
 
