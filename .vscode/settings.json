@@ -1,6 +1,6 @@
 {
-  "vsicons.presets.angular": false,
-  "vsicons.presets.nestjs": true,
   "npm.packageManager": "pnpm",
-  "typescript.preferences.includePackageJsonAutoImports": "on"
+  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "material-icon-theme.activeIconPack": "nest"
 }
