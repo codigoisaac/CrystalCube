@@ -54,8 +54,9 @@ Response: { "id": 1, "name": "John Doe", "email": "john@example.com", "iat": 174
 - **Language**: TypeScript
 - **Database**: PostgreSQL
 - **ORM**: Prisma
+- **Package Manager**: pnpm (with security-enhanced configuration)
 - **Authentication**: JWT (JSON Web Tokens)
-- **Validation**: class-validator
+- **Validation**: class-validator & class-transformer
 - **Password Hashing**: bcrypt
 - **Containerization**: Docker & Docker Compose
 
@@ -113,8 +114,8 @@ You can run this application either directly on your machine or using Docker.
 #### Prerequisites
 
 - Node.js (v18 or higher)
+- pnpm (v8 or higher)
 - PostgreSQL
-- npm or yarn
 
 #### Environment Setup
 
@@ -125,9 +126,22 @@ You can run this application either directly on your machine or using Docker.
    cd RedCarpet
    ```
 
-2. Install dependencies and set up environment:
+2. Install pnpm (if not already installed):
+
    ```bash
-   npm install
+   # Using npm
+   npm install -g pnpm
+
+   # Or using curl (recommended)
+   curl -fsSL https://get.pnpm.io/install.sh | sh -
+
+   # Or using your package manager (Linux)
+   sudo apt install pnpm
+   ```
+
+3. Install dependencies and set up environment:
+   ```bash
+   pnpm install
    cp .env.example .env
    # Edit .env with your configuration
    ```
@@ -144,19 +158,19 @@ You can run this application either directly on your machine or using Docker.
 
 3. Apply migrations and generate the Prisma client:
    ```bash
-   npx prisma migrate dev
-   npx prisma generate
+   pnpm exec prisma migrate dev
+   pnpm exec prisma generate
    ```
 
 #### Running the Application
 
 ```bash
 # Development
-npm run start:dev
+pnpm run start:dev
 
 # Production
-npm run build
-npm run start:prod
+pnpm run build
+pnpm run start:prod
 ```
 
 The API will be available at `http://localhost:3333` (or the port specified in your env variables).
@@ -166,20 +180,20 @@ The API will be available at `http://localhost:3333` (or the port specified in y
 Prisma Studio is a visual editor for your database. To run it locally (without Docker):
 
 ```bash
-npx prisma studio
+pnpm exec prisma studio
 ```
 
 This will start Prisma Studio at http://localhost:5555. You can use it to view and edit the data in your database with a user-friendly interface.
 
 ## Docker Details
 
-This project includes a complete Docker setup for both development and production environments:
+This project includes a complete Docker setup optimized for both development and production environments:
 
 ### Docker Components
 
 - **Main API Container**: NestJS application with automatic database migrations on startup
 - **PostgreSQL Container**: Database persistence with volume mapping
-- **Prisma Studio Container**: Web-based database management interface
+- **Prisma Studio Container**: Minimal web-based database management interface (optimized for resource efficiency)
 
 ### Docker Services
 
@@ -188,6 +202,7 @@ This project includes a complete Docker setup for both development and productio
   - Builds from `Dockerfile`
   - Runs on port 3333 (configurable in .env)
   - Automatically runs database migrations on startup
+  - Uses multi-stage build for production optimization
   - Uses non-root user for enhanced security
 
 - **postgres**: PostgreSQL database
@@ -199,6 +214,7 @@ This project includes a complete Docker setup for both development and productio
 - **prisma-studio**: Web interface for database management
   - Builds from `Dockerfile.prisma-studio`
   - Runs on port 5555
+  - Minimal installation (only Prisma dependencies)
   - Provides a convenient UI for managing database records
 
 ### Docker Commands
@@ -221,6 +237,64 @@ docker-compose up -d --build
 
 # Remove volumes (caution: this deletes all database data)
 docker-compose down -v
+```
+
+## Package Management
+
+This project uses **pnpm** for enhanced performance, security, and disk efficiency:
+
+### pnpm Advantages
+
+- **Faster installations**: ~2x speed improvement over npm
+- **Disk space efficiency**: Shared dependencies across projects
+- **Enhanced security**: Prevents phantom dependencies and blocks untrusted scripts by default
+- **Better monorepo support**: Excellent workspace management
+
+### Security Configuration
+
+The project includes security-enhanced pnpm configuration in `package.json`:
+
+```json
+{
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@nestjs/core",
+      "@prisma/client",
+      "@prisma/engines",
+      "bcrypt",
+      "prisma"
+    ]
+  }
+}
+```
+
+This configuration follows pnpm v10+ security best practices by only allowing trusted packages to run build scripts.
+
+### Common pnpm Commands
+
+```bash
+# Install dependencies
+pnpm install
+
+# Add a new dependency
+pnpm add package-name
+
+# Add a dev dependency
+pnpm add -D package-name
+
+# Remove a dependency
+pnpm remove package-name
+
+# Update dependencies
+pnpm update
+
+# Run scripts
+pnpm run start:dev
+pnpm run build
+
+# Execute packages
+pnpm exec prisma studio
+pnpm exec nest generate module users
 ```
 
 ## API Endpoints
@@ -275,7 +349,22 @@ You can protect individual routes or apply the guard to an entire controller by 
 - For production, consider implementing a refresh token mechanism for better security
 - The API uses global validation pipes to automatically validate incoming requests
 - Custom validation decorator (`Match`) is implemented for password confirmation
-- Docker setup includes separate containers for the API, database, and database management
+- Docker setup includes optimized containers with minimal attack surfaces
+- pnpm configuration ensures secure dependency management and faster builds
+
+## Performance & Security
+
+### Package Management Security
+
+- **Script execution control**: Only trusted packages can run build scripts
+- **Dependency isolation**: Prevents phantom dependencies and version conflicts
+- **Faster CI/CD**: Improved build times in continuous integration pipelines
+
+### Docker Optimization
+
+- **Multi-stage builds**: Minimal production images
+- **Resource efficiency**: Prisma Studio container ~70% smaller than full dependency installation
+- **Security hardening**: Non-root users in all containers
 
 ## License
 
