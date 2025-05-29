@@ -4,6 +4,10 @@ import { PrismaService } from '@src/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpDTO } from './dtos/auth';
 import { UnauthorizedException } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+
+jest.mock('bcrypt');
+const mockedBcrypt = bcrypt as jest.Mocked<typeof bcrypt>;
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -78,6 +82,7 @@ describe('AuthService', () => {
 
     test('Should create a new user successfully', async () => {
       jest.mocked(prismaService.user.findUnique).mockResolvedValue(null);
+      mockedBcrypt.hash.mockResolvedValue('hash3dP@ss' as never);
       jest.mocked(prismaService.user.create).mockResolvedValue(existingUser);
 
       const result = await authService.signup(signUpDto);
@@ -92,11 +97,13 @@ describe('AuthService', () => {
         where: { email: signUpDto.email },
       });
 
+      expect(mockedBcrypt.hash).toHaveBeenCalledWith(signUpDto.password, 10);
+
       expect(prismaService.user.create).toHaveBeenCalledWith({
         data: {
           name: signUpDto.name,
           email: signUpDto.email,
-          password: expect.any(String),
+          password: 'hash3dP@ss',
         },
       });
     });
