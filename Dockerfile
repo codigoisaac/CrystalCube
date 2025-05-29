@@ -2,27 +2,35 @@
 
 FROM node:20-alpine AS builder
 
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
 WORKDIR /app
 
 # Install dependencies required for Prisma
 RUN apk add --no-cache python3 make g++
 
-COPY package*.json ./
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
 COPY prisma ./prisma
 
-RUN npm ci
+# Install dependencies
+RUN pnpm install --frozen-lockfile
 
 COPY . . 
 
 RUN npx prisma generate
-RUN npm run build
-RUN npm prune --production
+RUN pnpm run build
+RUN pnpm prune --prod
 
 ### Production Stage
 
 FROM node:20-alpine AS production
 
 ENV NODE_ENV=production
+
+# Install pnpm in production stage
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
 # Create non-root user for security
 RUN addgroup --system --gid 1001 nodejs && \
@@ -55,4 +63,3 @@ EXPOSE 3333
 
 # Start the application using the entrypoint script
 ENTRYPOINT ["/docker-entrypoint.sh"]
-

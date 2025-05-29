@@ -44,3 +44,7 @@ LICENSE
 
 # Generated Prisma files (will be regenerated in container)
 /generated
+
+# Package manager lock files (keep only pnpm)
+package-lock.json
+yarn.lock

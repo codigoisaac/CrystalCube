@@ -60,3 +60,8 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Bruno API client
 /ApiClient
+
+# Package manager lock files (exclude npm/yarn, keep pnpm)
+package-lock.json
+yarn.lock
+# pnpm-lock.yaml should be committed

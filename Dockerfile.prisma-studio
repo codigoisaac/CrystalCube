@@ -1,18 +1,35 @@
 FROM node:20-alpine
 
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Set up pnpm global directory environment variables
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+# Create pnpm home directory and configure global settings
+RUN mkdir -p /pnpm && \
+    pnpm config set global-bin-dir /pnpm && \
+    pnpm config set global-dir /pnpm/global
+
+# Install only prisma globally (minimal installation)
+RUN pnpm add -g prisma
+
 # Create non-root user for security
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 prisma
 
 WORKDIR /app
 
+# Copy only prisma directory (not entire project)
 COPY prisma ./prisma
- 
-RUN npm install --no-save prisma && \
-    chown -R prisma:nodejs /app
+
+# Set correct ownership
+RUN chown -R prisma:nodejs /app /pnpm
 
 USER prisma
 
 EXPOSE 5555
 
-CMD ["npx", "prisma", "studio", "--hostname", "0.0.0.0"]
+# Use prisma directly since it's globally installed
+CMD ["prisma", "studio", "--hostname", "0.0.0.0"]

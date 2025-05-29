@@ -1,4 +1,6 @@
 {
-    "vsicons.presets.angular": false,
-    "vsicons.presets.nestjs": true
+  "vsicons.presets.angular": false,
+  "vsicons.presets.nestjs": true,
+  "npm.packageManager": "pnpm",
+  "typescript.preferences.includePackageJsonAutoImports": "on"
 }
