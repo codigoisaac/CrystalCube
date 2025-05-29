@@ -6,7 +6,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { LogInDTO, SignUpDTO } from './dtos/auth';
+import { LoginDTO, SignupDTO } from './dtos/auth';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { User } from '@root/generated/prisma';
@@ -16,12 +16,12 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('signup')
-  async signup(@Body() body: SignUpDTO) {
+  async signup(@Body() body: SignupDTO) {
     return this.authService.signup(body);
   }
 
   @Post('login')
-  async login(@Body() body: LogInDTO) {
+  async login(@Body() body: LoginDTO) {
     return this.authService.login(body);
   }
 

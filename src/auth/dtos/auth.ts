@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 import { Match } from './match.decorator';
 
-export class SignUpDTO {
+export class SignupDTO {
   @IsString()
   @MinLength(4)
   @MaxLength(20)
@@ -36,7 +36,7 @@ export class SignUpDTO {
   passwordConfirm: string;
 }
 
-export class LogInDTO {
+export class LoginDTO {
   @IsEmail()
   email: string;
 
