@@ -2,6 +2,7 @@
   "npm.packageManager": "pnpm",
   "typescript.preferences.includePackageJsonAutoImports": "on",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
   "material-icon-theme.activeIconPack": "nest",
   "editor.tabSize": 2,
   "editor.detectIndentation": false
