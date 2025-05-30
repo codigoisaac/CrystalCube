@@ -5,5 +5,7 @@
   "editor.formatOnSave": true,
   "material-icon-theme.activeIconPack": "nest",
   "editor.tabSize": 2,
-  "editor.detectIndentation": false
+  "editor.detectIndentation": false,
+  "editor.wordWrap": "bounded",
+  "editor.wordWrapColumn": 80
 }
