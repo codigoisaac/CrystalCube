@@ -20,6 +20,10 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('check')
   check() {
-    return { isAuthenticated: true };
+    return {
+      isAuthenticated: true,
+      message:
+        "You are authenticated. Thank you for using Red Carpet. Contact the author and let's create awesome things together! B)",
+    };
   }
 }
