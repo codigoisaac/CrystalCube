@@ -10,8 +10,9 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage"
+    "test:w": "jest --watch",
+    "test:c": "jest --coverage",
+    "test:v": "jest --verbose"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
