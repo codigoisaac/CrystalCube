@@ -1,15 +1,7 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { LoginDTO, SignupDTO } from './dtos/auth';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
-import { User } from '@root/generated/prisma';
 
 @Controller('auth')
 export class AuthController {
@@ -27,7 +19,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('check')
-  check(@Request() request: { user: User }): User {
-    return request.user;
+  check() {
+    return { isAuthenticated: true };
   }
 }
