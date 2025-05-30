@@ -90,5 +90,19 @@ describe('AuthGuard', () => {
 
       expect(jwtService.verifyAsync).not.toHaveBeenCalled();
     });
+
+    test('Should throw UnauthorizedException when JWT verification fails', async () => {
+      mockRequest.headers = { authorization: 'Bearer invalid.jwt.token' };
+
+      jwtService.verifyAsync.mockRejectedValue(new Error('Invalid token'));
+
+      await expect(authGuard.canActivate(mockExecutionContext)).rejects.toThrow(
+        UnauthorizedException,
+      );
+
+      expect(jwtService.verifyAsync).toHaveBeenCalledWith('invalid.jwt.token', {
+        secret: process.env.JWT_SECRET,
+      });
+    });
   });
 });
