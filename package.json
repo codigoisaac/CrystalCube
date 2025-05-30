@@ -12,7 +12,8 @@
     "test": "jest",
     "test:w": "jest --watch",
     "test:c": "jest --coverage",
-    "test:v": "jest --verbose"
+    "test:v": "jest --verbose",
+    "test:vc": "jest --verbose --coverage"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
