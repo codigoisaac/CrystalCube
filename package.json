@@ -79,5 +79,9 @@
       "^@root/(.*)$": "<rootDir>/../$1",
       "^@src/(.*)$": "<rootDir>/$1"
     }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }
