@@ -47,6 +47,7 @@ Response: { "id": 1, "name": "John Doe", "email": "john@example.com", "iat": 174
 - **Password Security**: Bcrypt hashing for secure password storage
 - **PostgreSQL Integration**: Database persistence with Prisma ORM
 - **Docker Support**: Containerized setup for easy deployment and development
+- **Comprehensive Testing**: Jest testing framework with high coverage for reliable code quality
 
 ## Tech Stack
 
@@ -58,6 +59,7 @@ Response: { "id": 1, "name": "John Doe", "email": "john@example.com", "iat": 174
 - **Authentication**: JWT (JSON Web Tokens)
 - **Validation**: class-validator & class-transformer
 - **Password Hashing**: bcrypt
+- **Testing**: Jest with comprehensive test coverage
 - **Containerization**: Docker & Docker Compose
 
 ## Getting Started
@@ -184,6 +186,55 @@ pnpm exec prisma studio
 ```
 
 This will start Prisma Studio at http://localhost:5555. You can use it to view and edit the data in your database with a user-friendly interface.
+
+## Testing
+
+This project includes comprehensive testing using Jest to ensure code reliability and maintainability.
+
+### Test Structure
+
+The testing suite covers all critical components:
+
+- **Authentication Service**: Tests for user registration, login, and error handling
+- **Authentication Controller**: Tests for endpoint behavior and request/response handling
+- **Authentication Guard**: Tests for JWT token validation and authorization
+- **Data Transfer Objects (DTOs)**: Tests for validation rules and custom decorators
+- **Custom Validators**: Tests for the Match decorator functionality
+
+### Running Tests
+
+```bash
+# Run all tests
+pnpm test
+
+# Run tests in watch mode (automatically re-runs when files change)
+pnpm run test:w
+
+# Run tests with coverage report
+pnpm run test:c
+
+# Run tests with verbose output
+pnpm run test:v
+
+# Run tests with verbose output and coverage
+pnpm run test:vc
+```
+
+### Test Coverage
+
+The project maintains high test coverage across all modules. Coverage reports are generated in the `coverage/` directory when running tests with the coverage flag.
+
+### Test Configuration
+
+Jest is configured to:
+
+- Use TypeScript with ts-jest transformer
+- Support path mapping aliases (`@root/*` and `@src/*`)
+- Exclude build artifacts and node_modules
+- Generate coverage reports for all TypeScript files except configuration files
+- Use Node.js test environment for backend testing
+
+The Jest configuration can be found in the `jest` section of `package.json`.
 
 ## Docker Details
 
@@ -351,6 +402,7 @@ You can protect individual routes or apply the guard to an entire controller by 
 - Custom validation decorator (`Match`) is implemented for password confirmation
 - Docker setup includes optimized containers with minimal attack surfaces
 - pnpm configuration ensures secure dependency management and faster builds
+- Comprehensive test suite ensures code reliability and facilitates safe refactoring
 
 ## Performance & Security
 
@@ -365,6 +417,12 @@ You can protect individual routes or apply the guard to an entire controller by 
 - **Multi-stage builds**: Minimal production images
 - **Resource efficiency**: Prisma Studio container ~70% smaller than full dependency installation
 - **Security hardening**: Non-root users in all containers
+
+### Testing Quality Assurance
+
+- **High test coverage**: Comprehensive testing ensures code reliability
+- **Automated validation**: Jest runs validate business logic and data flow
+- **Continuous integration ready**: Tests can be easily integrated into CI/CD pipelines
 
 ## License
 
