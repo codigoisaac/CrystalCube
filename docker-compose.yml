@@ -1,6 +1,6 @@
 services:
   api:
-    container_name: redcarpet_api
+    container_name: crystal-cube_api
     build:
       context: .
       dockerfile: Dockerfile
@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
 
   prisma-studio:
-    container_name: redcarpet_prismastudio
+    container_name: crystal-cube_prismastudio
     build:
       context: .
       dockerfile: Dockerfile.prisma-studio
@@ -30,7 +30,7 @@ services:
     restart: unless-stopped
 
   postgres:
-    container_name: redcarpet_postgres
+    container_name: crystal-cube_postgres
     image: postgres:16-alpine
     ports:
       - '7777:5432'

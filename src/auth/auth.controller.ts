@@ -22,7 +22,7 @@ export class AuthController {
   check() {
     return {
       isAuthenticated: true,
-      message: 'You are authenticated. Thank you for using Red Carpet. B)',
+      message: 'You are authenticated. Thank you for using Crystal Cube.',
     };
   }
 }
