@@ -1,6 +1,6 @@
 # Crystal Cube
 
-A NestJS-based authentication API with JWT implementation. This project provides a robust starting point for building secure web applications with user authentication functionality.
+A production-ready NestJS authentication API with JWT implementation, comprehensive test coverage, and full Docker containerization. This project provides a robust, well-tested starting point for building secure web applications with modern development practices.
 
 ## Authentication System Overview
 
@@ -10,6 +10,9 @@ This API implements a secure JWT-based authentication system with these key feat
 - **Login**: Users authenticate to receive a JWT token
 - **Authentication Check**: Simple endpoint to verify if a token is valid
 - **Password Security**: Bcrypt hashing with strong password requirements
+- **Full Docker Support**: Complete containerized environment with database and admin tools
+- **High Test Coverage**: Comprehensive Jest testing suite ensuring code reliability
+- **Modern Stack**: TypeScript, Prisma ORM, PostgreSQL, and pnpm for enhanced performance
 
 ### Authentication Flow
 
