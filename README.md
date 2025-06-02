@@ -8,7 +8,7 @@ This API implements a secure JWT-based authentication system with these key feat
 
 - **Registration**: Users create accounts with email, name, and password
 - **Login**: Users authenticate to receive a JWT token
-- **Protected Resources**: Access secured endpoints using JWT tokens
+- **Authentication Check**: Simple endpoint to verify if a token is valid
 - **Password Security**: Bcrypt hashing with strong password requirements
 
 ### Authentication Flow
@@ -24,17 +24,18 @@ POST /auth/login
 Body: { "email": "john@example.com", "password": "StrongP@ss1" }
 Response: { "accessToken": "eyJhbGciOiJIUzI1NiIsIn..." }
 
-# 3. Access protected resources
+# 3. Check authentication status
 GET /auth/check
 Header: Authorization: Bearer eyJhbGciOiJIUzI1NiIsIn...
-Response: { "id": 1, "name": "John Doe", "email": "john@example.com", "iat": 1747046287, "exp": 1747049887 }
+Response: { "isAuthenticated": true, "message": "You are authenticated. Thank you for using Red Carpet. B)" }
 ```
 
 ### Technical Implementation
 
 - **Password Security**: Passwords are hashed with bcrypt (cost factor 10)
 - **JWT Implementation**: Tokens contain user data (id, name, email) with a 1-hour expiration
-- **Token Verification**: AuthGuard middleware verifies tokens and provides user data to controllers
+- **Token Verification**: AuthGuard middleware verifies tokens for protected routes
+- **Authentication Check**: Simple endpoint returns authentication status without exposing user data
 - **Stateless Design**: No server-side token storage for better scalability
 
 > **Note on Token Expiration**: The default token expiration is set to 1 hour (`expiresIn: '1h'`) in `auth.module.ts`. For production environments, this should be paired with a refresh token mechanism for better security. You can modify this value based on your security requirements.
@@ -43,6 +44,7 @@ Response: { "id": 1, "name": "John Doe", "email": "john@example.com", "iat": 174
 
 - **User Authentication**: Complete signup and login system
 - **JWT-based Authorization**: Secure API endpoints with JSON Web Tokens
+- **Simple Auth Check**: Lightweight endpoint to verify authentication status
 - **Data Validation**: Strong request validation with custom decorators
 - **Password Security**: Bcrypt hashing for secure password storage
 - **PostgreSQL Integration**: Database persistence with Prisma ORM
@@ -354,7 +356,7 @@ pnpm exec nest generate module users
 
 - **POST /auth/signup** - Register a new user
 - **POST /auth/login** - Authenticate and receive token
-- **GET /auth/check** - Verify authentication (protected route)
+- **GET /auth/check** - Check if current token is valid (protected route)
 
 ### Creating Protected Routes
 
@@ -385,9 +387,11 @@ When the `AuthGuard` is applied:
 
 - Requests must include a valid JWT token in the Authorization header
 - If the token is missing or invalid, the request will be rejected with a 401 Unauthorized error
-- If the token is valid, the user's information becomes available via `request.user` in your controller
+- If the token is valid, the request proceeds and returns the expected response
 
 You can protect individual routes or apply the guard to an entire controller by placing the decorator at the controller level.
+
+The `/auth/check` endpoint is perfect for frontend applications to verify if a user is still authenticated before accessing protected features.
 
 ## Password Requirements
 
