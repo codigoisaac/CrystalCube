@@ -1,4 +1,4 @@
-# Crystal Cube
+# Enter The Nest
 
 A production-ready NestJS authentication API with JWT implementation, comprehensive test coverage, and full Docker containerization. This project provides a robust, well-tested starting point for building secure web applications with modern development practices.
 
@@ -30,7 +30,7 @@ Response: { "accessToken": "eyJhbGciOiJIUzI1NiIsIn..." }
 # 3. Check authentication status
 GET /auth/check
 Header: Authorization: Bearer eyJhbGciOiJIUzI1NiIsIn...
-Response: { "isAuthenticated": true, "message": "You are authenticated. Thank you for using Crystal Cube." }
+Response: { "isAuthenticated": true, "message": "You are authenticated. Thank you for using Enter The Nest." }
 ```
 
 ### Technical Implementation
@@ -83,8 +83,8 @@ You can run this application either directly on your machine or using Docker.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/codigoisaac/CrystalCube.git
-   cd CrystalCube
+   git clone https://github.com/codigoisaac/EnterTheNest.git
+   cd EnterTheNest
    ```
 
 2. Create environment file:
@@ -102,9 +102,9 @@ You can run this application either directly on your machine or using Docker.
 
    This command starts three containers:
 
-   - `crystal-cube_api`: The NestJS API running on port 3333
-   - `crystal-cube_postgres`: PostgreSQL database running on port 7777
-   - `crystal-cube_prismastudio`: Prisma Studio for database management running on port 5555
+   - `enter-the-nest_api`: The NestJS API running on port 3333
+   - `enter-the-nest_postgres`: PostgreSQL database running on port 7777
+   - `enter-the-nest_prismastudio`: Prisma Studio for database management running on port 5555
 
 4. Access the application:
 
@@ -129,8 +129,8 @@ You can run this application either directly on your machine or using Docker.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/codigoisaac/CrystalCube.git
-   cd CrystalCube
+   git clone https://github.com/codigoisaac/EnterTheNest.git
+   cd EnterTheNest
    ```
 
 2. Install pnpm (if not already installed):
@@ -160,7 +160,7 @@ You can run this application either directly on your machine or using Docker.
 2. Configure your database connection in the `.env` file:
 
    ```
-   DATABASE_URL="postgresql://username:password@localhost:5432/crystal-cube?schema=public"
+   DATABASE_URL="postgresql://username:password@localhost:5432/enter-the-nest?schema=public"
    ```
 
 3. Apply migrations and generate the Prisma client:

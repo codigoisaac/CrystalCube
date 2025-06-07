@@ -22,7 +22,7 @@ export class AuthController {
   check() {
     return {
       isAuthenticated: true,
-      message: 'You are authenticated. Thank you for using Crystal Cube.',
+      message: 'You are authenticated. Thank you for using Enter The Nest.',
     };
   }
 }
